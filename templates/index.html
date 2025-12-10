@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XAUUSD Market Analysis | Real-Time Trading Dashboard</title>
+    <meta name="description"
+        content="Professional real-time XAUUSD market analysis with multi-timeframe technical indicators, correlation tracking, and economic calendar integration">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo-icon">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                            <path d="M16 4L20 12L28 14L22 20L24 28L16 24L8 28L10 20L4 14L12 12L16 4Z"
+                                fill="url(#gold-gradient)" />
+                            <defs>
+                                <linearGradient id="gold-gradient" x1="4" y1="4" x2="28" y2="28">
+                                    <stop offset="0%" stop-color="#FFD700" />
+                                    <stop offset="100%" stop-color="#FFA500" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
+                    <div class="logo-text">
+                        <h1>XAUUSD Analysis</h1>
+                        <p class="subtitle">Real-Time Market Intelligence</p>
+                    </div>
+                </div>
+
+                <div class="header-status">
+                    <div class="connection-status" id="connectionStatus">
+                        <div class="status-indicator"></div>
+                        <span>Connecting...</span>
+                    </div>
+                    <div class="last-update" id="lastUpdate">
+                        <span class="update-label">Last Update:</span>
+                        <span class="update-time">--:--:--</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Price Overview Section -->
+            <section class="price-overview glass-card">
+                <div class="price-main">
+                    <div class="price-label">XAUUSD</div>
+                    <div class="price-value" id="currentPrice">$-----.--</div>
+                    <div class="price-change" id="priceChange">
+                        <span class="change-value">+0.00%</span>
+                        <span class="change-period">(1hr)</span>
+                    </div>
+                </div>
+                <div class="session-info">
+                    <div class="session-badge" id="sessionBadge">
+                        <span class="session-icon">🌍</span>
+                        <span class="session-name">LOADING</span>
+                    </div>
+                    <div class="next-overlap" id="nextOverlap">
+                        Next overlap in <strong>--</strong> min
+                    </div>
+                </div>
+            </section>
+
+            <!-- Market Drivers -->
+            <section class="market-drivers glass-card">
+                <h2 class="section-title">Market Drivers</h2>
+                <div class="drivers-grid">
+                    <div class="driver-item">
+                        <div class="driver-label">Primary Driver</div>
+                        <div class="driver-value primary" id="primaryDriver">Technical</div>
+                    </div>
+                    <div class="driver-item">
+                        <div class="driver-label">Momentum</div>
+                        <div class="driver-value momentum" id="momentum">Moderate Bullish</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Correlation Dashboard -->
+            <section class="correlations-section">
+                <h2 class="section-title">Correlation Dashboard</h2>
+                <div class="correlations-grid">
+                    <!-- Yield Watch -->
+                    <div class="correlation-card glass-card" id="yieldCard">
+                        <div class="correlation-header">
+                            <h3>Yield Watch</h3>
+                            <div class="correlation-icon"><i class="fas fa-chart-line"></i></div>
+                        </div>
+                        <div class="correlation-body">
+                            <div class="correlation-value" id="yieldValue">-.---%</div>
+                            <div class="correlation-change" id="yieldChange">
+                                <span class="arrow">→</span>
+                                <span class="bps">0 bps</span>
+                            </div>
+                            <div class="correlation-impact">
+                                <span class="impact-label">Gold Pressure:</span>
+                                <span class="impact-value" id="yieldPressure">Neutral</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- USD Watch -->
+                    <div class="correlation-card glass-card" id="dxyCard">
+                        <div class="correlation-header">
+                            <h3>USD Watch</h3>
+                            <div class="correlation-icon"><i class="fas fa-dollar-sign"></i></div>
+                        </div>
+                        <div class="correlation-body">
+                            <div class="correlation-value" id="dxyValue">---.--</div>
+                            <div class="correlation-change" id="dxyChange">
+                                <span class="arrow">→</span>
+                                <span class="percent">0.00%</span>
+                            </div>
+                            <div class="correlation-impact">
+                                <span class="impact-label">Inverse Pressure:</span>
+                                <span class="impact-value" id="dxyPressure">Neutral</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Risk Gauge -->
+                    <div class="correlation-card glass-card" id="riskCard">
+                        <div class="correlation-header">
+                            <h3>Risk Gauge</h3>
+                            <div class="correlation-icon"><i class="fas fa-chart-bar"></i></div>
+                        </div>
+                        <div class="correlation-body">
+                            <div class="correlation-label">SPX Futures</div>
+                            <div class="correlation-change" id="riskChange">
+                                <span class="arrow">→</span>
+                                <span class="percent">0.00%</span>
+                            </div>
+                            <div class="correlation-impact">
+                                <span class="impact-label">Haven Demand:</span>
+                                <span class="impact-value" id="havenDemand">Moderate</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bitcoin -->
+                    <div class="correlation-card glass-card" id="btcCard">
+                        <div class="correlation-header">
+                            <h3>Bitcoin</h3>
+                            <div class="correlation-icon"><i class="fab fa-bitcoin"></i></div>
+                        </div>
+                        <div class="correlation-body">
+                            <div class="correlation-value" id="btcValue">$--,---</div>
+                            <div class="correlation-change" id="btcChange">
+                                <span class="arrow">→</span>
+                                <span class="percent">0.00%</span>
+                            </div>
+                            <div class="correlation-impact">
+                                <span class="impact-label">Alt Asset Flow</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- VIX Fear Gauge -->
+                    <div class="correlation-card glass-card" id="vixCard">
+                        <div class="correlation-header">
+                            <h3>VIX (Fear Gauge)</h3>
+                            <div class="correlation-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        </div>
+                        <div class="correlation-body">
+                            <div class="correlation-value" id="vixValue">--.--</div>
+                            <div class="correlation-change" id="vixChange">
+                                <span class="arrow">→</span>
+                                <span class="percent">0.00%</span>
+                            </div>
+                            <div class="correlation-impact">
+                                <span class="impact-label">Fear Level:</span>
+                                <span class="impact-value" id="vixFearLevel">Moderate</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2-Year Treasury -->
+                    <div class="correlation-card glass-card" id="yield2yCard">
+                        <div class="correlation-header">
+                            <h3>2Y Treasury</h3>
+                            <div class="correlation-icon"><i class="fas fa-chart-area"></i></div>
+                        </div>
+                        <div class="correlation-body">
+                            <div class="correlation-value" id="yield2yValue">-.---%</div>
+                            <div class="correlation-change" id="yield2yChange">
+                                <span class="arrow">→</span>
+                                <span class="bps">0 bps</span>
+                            </div>
+                            <div class="correlation-impact">
+                                <span class="impact-label">Short-term Rates</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 30-Year Treasury -->
+                    <div class="correlation-card glass-card" id="yield30yCard">
+                        <div class="correlation-header">
+                            <h3>30Y Treasury</h3>
+                            <div class="correlation-icon"><i class="fas fa-chart-line"></i></div>
+                        </div>
+                        <div class="correlation-body">
+                            <div class="correlation-value" id="yield30yValue">-.---%</div>
+                            <div class="correlation-change" id="yield30yChange">
+                                <span class="arrow">→</span>
+                                <span class="bps">0 bps</span>
+                            </div>
+                            <!-- Small Line Chart -->
+                            <div class="chart-container" style="height: 60px; width: 100%; margin-top: 10px;">
+                                <canvas id="yield30yChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Yield Curve -->
+                    <div class="correlation-card glass-card" id="yieldCurveCard">
+                        <div class="correlation-header">
+                            <h3>Yield Curve</h3>
+                            <div class="correlation-icon"><i class="fas fa-wave-square"></i></div>
+                        </div>
+                        <div class="correlation-body">
+                            <div class="correlation-label">10Y-2Y Spread</div>
+                            <div class="correlation-value" id="yieldCurveSpread">--.-- bps</div>
+                            <div class="correlation-impact" style="margin-bottom: 5px;">
+                                <span class="impact-label">Status:</span>
+                                <span class="impact-value" id="yieldCurveStatus">Normal</span>
+                            </div>
+                            <!-- Small Line Chart -->
+                            <div class="chart-container" style="height: 60px; width: 100%; margin-top: 5px;">
+                                <canvas id="yieldCurveChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Technical Analysis -->
+            <section class="technical-section glass-card">
+                <h2 class="section-title">Technical Analysis</h2>
+                <div class="technical-grid">
+                    <div class="technical-item">
+                        <div class="tech-label">Nearest Support</div>
+                        <div class="tech-value support" id="nearestSupport">
+                            <span class="price">$-----.--</span>
+                            <span class="pips">(-- pips below)</span>
+                        </div>
+                    </div>
+                    <div class="technical-item">
+                        <div class="tech-label">Nearest Resistance</div>
+                        <div class="tech-value resistance" id="nearestResistance">
+                            <span class="price">$-----.--</span>
+                            <span class="pips">(-- pips above)</span>
+                        </div>
+                    </div>
+                    <div class="technical-item">
+                        <div class="tech-label">MA Alignment</div>
+                        <div class="tech-value" id="maAlignment">Neutral</div>
+                    </div>
+                    <div class="technical-item">
+                        <div class="tech-label">RSI(14)</div>
+                        <div class="tech-value" id="rsiValue">
+                            <span class="rsi-number">--</span>
+                            <span class="rsi-status">[Neutral]</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- News & Catalyst -->
+            <section class="news-section glass-card">
+                <h2 class="section-title">Next Catalyst</h2>
+                <div class="catalyst-container" id="catalystContainer">
+                    <div class="catalyst-empty">
+                        <span>No upcoming high-impact events</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Alerts -->
+            <section class="alerts-section glass-card">
+                <h2 class="section-title">Alert Conditions</h2>
+                <div class="alerts-container" id="alertsContainer">
+                    <div class="alert-item alert-none">
+                        <span class="alert-icon">✓</span>
+                        <span class="alert-text">None</span>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <div class="footer-content">
+                <p>Data provided by Twelve Data API & FRED (Federal Reserve) | Economic Calendar from Forex Factory</p>
+                <p class="update-info">Updates every 15 minutes | <button id="manualUpdate" class="update-btn">Update
+                        Now</button></p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+
+</html>

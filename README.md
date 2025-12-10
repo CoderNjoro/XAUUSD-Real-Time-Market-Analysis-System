@@ -2,263 +2,222 @@
 
 A professional, real-time market analysis dashboard for XAUUSD (Gold) trading with multi-timeframe technical analysis, correlation tracking, and economic calendar integration.
 
-![Dashboard Preview](https://img.shields.io/badge/Status-Active-success)
-![Python](https://img.shields.io/badge/Python-3.8+-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
 
-## 🌟 Features
+## Overview
 
-### Core Components
+A comprehensive trading analytics platform designed for XAUUSD (Gold/USD) that provides real-time market monitoring, technical analysis, and correlation tracking. The system integrates multiple data sources to deliver actionable insights for traders.
 
-1. **News/Event Tracker**
-   - Monitors economic calendars via Forex Factory RSS feed
-   - Flags high-impact USD data releases (NFP, CPI, Fed decisions)
-   - Alerts for events 15-60 minutes ahead
-   - Measures actual vs expected deviations
+## Features
 
-2. **Correlation Dashboard**
-   - Real-time tracking of:
-     - US 10-Year Treasury Yield (inverse correlation)
-     - DXY (USD Index)
-     - S&P 500 futures (risk sentiment)
-     - Bitcoin (alternative asset flow)
+### Market Intelligence
+- **Economic Calendar Integration**: Monitors high-impact USD data releases via Forex Factory RSS feed
+- **Real-time Correlation Tracking**: Simultaneous monitoring of Treasury yields, DXY, S&P 500, and Bitcoin
+- **Multi-timeframe Analysis**: Technical analysis across 15-minute, 1-hour, and 4-hour timeframes
+- **Liquidity Awareness**: Trading session tracking and volume profile analysis
 
-3. **Technical Level Monitor**
-   - Multi-timeframe analysis (15-min, 1-hour, 4-hour)
-   - Key support/resistance identification
-   - Previous day high/low and weekly pivots
-   - 50 & 200-period moving averages
-   - RSI extremes monitoring
+### Technical Analysis
+- **Support & Resistance**: Dynamic identification of key price levels
+- **Moving Averages**: 50 & 200-period MA alignment monitoring
+- **Momentum Indicators**: RSI extremes and trend strength analysis
+- **Pivot Points**: Previous day high/low and weekly pivot calculations
 
-4. **Time & Liquidity Awareness**
-   - Current trading session display
-   - Session overlap tracking
-   - Volume profile analysis
+### Alert System
+- Price proximity alerts (within 0.2% of key levels)
+- Yield movement alerts (>5bps in 15 minutes)
+- DXY breakout notifications
+- Volume spike detection (50% above average)
+- Pre-news event warnings
 
-### Alert Triggers
-
-- Price within 0.2% of major technical levels
-- Yield moves >5bps in 15 minutes
-- DXY breaks significant levels
-- 15-min volume 50% above average
-- High-impact news in next 30 minutes
-
-## 🚀 Installation
+## Installation
 
 ### Prerequisites
-
 - Python 3.8 or higher
-- pip (Python package manager)
+- pip package manager
 
-### Setup
+### Setup Instructions
 
-1. **Clone or download this repository**
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/yourusername/xauusd-analysis-system.git
+   cd xauusd-analysis-system
+   ```
 
 2. **Install dependencies**
    ```bash
    pip install -r requirements.txt
    ```
 
-3. **Configuration**
-   - API keys are already configured in `config.py`
-   - Twelve Data API: `e66f23af924748319c7aea637eb54fac`
-   - Forex Factory RSS: Automatic feed parsing
+3. **Start the application**
+   ```bash
+   python app.py
+   ```
 
-## 📊 Usage
+4. **Access the dashboard**
+   Open your browser and navigate to: `http://localhost:5000`
 
-### Starting the Application
+## Dashboard Interface
 
-**Windows:**
-```bash
-python app.py
-```
-
-**The server will start on:** `http://localhost:5000`
-
-### Accessing the Dashboard
-
-1. Open your web browser
-2. Navigate to: `http://localhost:5000`
-3. The dashboard will automatically connect and start receiving real-time updates
-
-### Features
-
-- **Automatic Updates**: Market data refreshes every 15 minutes
-- **Manual Refresh**: Click "Update Now" button for immediate data fetch
-- **Real-time WebSocket**: Live updates without page refresh
-- **Responsive Design**: Works on desktop, tablet, and mobile
-
-## 🎨 Dashboard Sections
-
-### 1. Price Overview
-- Current XAUUSD price with large, prominent display
-- 1-hour price change percentage
+### Price Overview Section
+- Current XAUUSD price with large display
+- 1-hour percentage change
 - Active trading session indicator
-- Next session overlap countdown
+- Next session overlap timer
 
-### 2. Market Drivers
-- Primary driver identification (Technical/Fundamental/Sentiment/Liquidity)
-- Momentum strength and direction
+### Market Drivers
+- Primary market driver identification
+- Momentum strength and direction indicators
+- Real-time sentiment analysis
 
-### 3. Correlation Dashboard
-Four correlation cards showing:
-- **Yield Watch**: 10-Year Treasury with basis point changes
-- **USD Watch**: DXY with percentage changes
-- **Risk Gauge**: S&P 500 futures sentiment
-- **Bitcoin**: Alternative asset tracking
+### Correlation Matrix
+- **Yield Watch**: 10-Year Treasury yields with basis point changes
+- **USD Watch**: DXY index with percentage movements
+- **Risk Gauge**: S&P 500 futures sentiment indicator
+- **Bitcoin Monitor**: Alternative asset correlation tracking
 
-### 4. Technical Analysis
-- Nearest support level with pip distance
-- Nearest resistance level with pip distance
-- Moving average alignment (Bullish/Bearish/Neutral)
-- RSI(14) with overbought/oversold status
+### Technical Analysis Panel
+- Nearest support and resistance levels
+- Moving average alignment status
+- RSI(14) reading with overbought/oversold indicators
 
-### 5. Next Catalyst
+### Event Tracker
 - Upcoming high-impact economic events
-- Time until event
-- Event impact level
+- Countdown to next catalyst
+- Expected market impact assessment
 
-### 6. Alert Conditions
-- Active alerts for trading opportunities
-- Color-coded by severity
-- Real-time alert updates
+### Alert Center
+- Active trading alerts
+- Color-coded priority system
+- Real-time notification updates
 
-## 🛠️ Technical Stack
+## System Architecture
 
-### Backend
-- **Flask**: Web framework
-- **Flask-SocketIO**: Real-time WebSocket communication
+### Backend Components
+- **Flask**: Lightweight web framework
+- **Flask-SocketIO**: Real-time bidirectional communication
 - **Pandas**: Data manipulation and analysis
-- **Requests**: API data fetching
-- **Feedparser**: RSS feed parsing
-- **TA**: Technical analysis indicators
+- **Requests**: HTTP library for API calls
+- **TA-Lib**: Technical analysis library
 
-### Frontend
-- **HTML5**: Semantic structure
-- **CSS3**: Modern styling with glassmorphism
-- **Vanilla JavaScript**: Real-time updates
+### Frontend Components
+- **HTML5/CSS3**: Modern responsive design
+- **JavaScript**: Dynamic content updates
 - **Socket.IO Client**: WebSocket communication
-- **Google Fonts**: Inter & JetBrains Mono
+- **Glassmorphism UI**: Contemporary visual design
 
 ### Data Sources
-- **Twelve Data API**: Market data and quotes
+- **Twelve Data API**: Real-time market data
 - **Forex Factory RSS**: Economic calendar events
+- **Public APIs**: Treasury yields, DXY, S&P 500 futures
 
-## 📁 Project Structure
+## Project Structure
 
 ```
-Forexpresictionsystem/
-├── app.py                      # Flask application & WebSocket server
-├── config.py                   # Configuration and API keys
-├── data_fetcher.py            # Data retrieval from APIs
-├── technical_analysis.py      # Technical indicators & analysis
-├── market_analysis.py         # Market analysis engine
+xauusd-analysis-system/
+├── app.py                      # Main Flask application
+├── config.py                   # Configuration settings
+├── data_fetcher.py            # API data retrieval
+├── technical_analysis.py      # Technical indicators
+├── market_analysis.py         # Market analysis logic
 ├── requirements.txt           # Python dependencies
 ├── templates/
-│   └── index.html            # Main dashboard HTML
+│   └── index.html            # Dashboard template
 ├── static/
 │   ├── css/
-│   │   └── styles.css        # Dashboard styling
+│   │   └── styles.css        # Custom styling
 │   └── js/
-│       └── app.js            # Frontend application logic
-└── README.md                 # This file
+│       └── app.js            # Frontend logic
+└── README.md                 # Documentation
 ```
 
-## ⚙️ Configuration
+## Configuration
 
-Edit `config.py` to customize:
+Customize system behavior by modifying `config.py`:
 
-- **Update intervals**: Change `UPDATE_INTERVAL` (default: 900 seconds / 15 minutes)
-- **Technical settings**: Modify RSI periods, MA periods, alert thresholds
-- **Trading sessions**: Adjust session times for different timezones
-- **Alert sensitivity**: Change proximity percentages for alerts
+- **Update Interval**: Adjust data refresh rate (default: 900 seconds)
+- **Alert Thresholds**: Modify sensitivity for price and yield alerts
+- **Trading Sessions**: Customize session times for different timezones
+- **Technical Parameters**: Configure RSI periods, MA settings
 
-## 🎯 Output Format
+## Output Format
 
-Every 15 minutes, the system generates a comprehensive snapshot:
+The system generates structured market analysis every 15 minutes:
 
 ```
 [Timestamp]
-XAUUSD: $XXXX.XX | Change: +X.XX% (1hr) | Session: [LONDON/NY/ASIAN]
+XAUUSD: $XXXX.XX | Change: +X.XX% (1hr) | Session: [Active Session]
 
 PRIMARY DRIVER: [Technical/Fundamental/Liquidity/Sentiment]
-MOMENTUM: [Strong/Moderate/Weak] [Bullish/Bearish]
+MOMENTUM: [Strength] [Direction]
 
-KEY MONITORS:
-YIELD WATCH: 10Y @ X.XX% (▲▼ Xbps) → Gold Pressure: Up/Down
-USD WATCH: DXY @ XX.XX (▲▼ X%) → Inverse Pressure: Strong/Weak
-RISK GAUGE: SPX futures ▲▼ X% → Haven Demand: High/Low
+KEY CORRELATIONS:
+• Yield: 10Y @ X.XX% (Change: Xbps) → Gold Pressure: Direction
+• USD: DXY @ XX.XX (Change: X%) → Inverse Correlation: Strength
+• Risk: SPX futures (Change: X%) → Haven Demand: Level
 
-TECHNICALS:
-• Nearest Support: $XXXX (X pips below)
-• Nearest Resistance: $XXXX (X pips above)
+TECHNICAL LEVELS:
+• Nearest Support: $XXXX (Distance: X pips)
+• Nearest Resistance: $XXXX (Distance: X pips)
 • MA Alignment: [Bullish/Bearish/Neutral]
-• RSI(14): XX [Overbought/Oversold/Neutral]
+• RSI(14): XX [Status]
 
-NEXT CATALYST: [Event] at [Time] in [X minutes] | Impact: [High/Medium]
+NEXT CATALYST: [Event Name] at [Time] (in X minutes) | Impact: [High/Medium/Low]
 
-ALERT CONDITIONS: [None/Approaching Key Level/High Impact News Due]
+ACTIVE ALERTS: [Alert Count] [Alert Details]
 ```
 
-## 🎨 Design Features
+## Troubleshooting
 
-- **Dark Theme**: Professional trading terminal aesthetic
-- **Gold Accents**: Premium color scheme matching XAUUSD
-- **Glassmorphism**: Modern glass-card effects
-- **Smooth Animations**: Micro-interactions for better UX
-- **Responsive Layout**: Adapts to all screen sizes
-- **Real-time Updates**: Live data without page refresh
+### Common Issues
 
-## 🔧 Troubleshooting
-
-### Connection Issues
-- Ensure port 5000 is not in use
+**Connection Problems**
+- Ensure port 5000 is available
 - Check firewall settings
-- Verify internet connection for API access
+- Verify network connectivity
 
-### API Errors
-- Twelve Data API has rate limits (free tier: 8 API calls/minute)
-- If you see errors, wait a few minutes before retrying
-- Consider upgrading API plan for higher limits
+**API Limitations**
+- Twelve Data API free tier: 8 calls/minute
+- Implement rate limiting in code
+- Consider API plan upgrade for higher usage
 
-### No Data Displayed
-- Wait for first update cycle (up to 15 minutes)
-- Click "Update Now" to force immediate fetch
+**Data Display Issues**
+- Wait for initial data fetch (up to 15 minutes)
+- Use "Update Now" for manual refresh
 - Check browser console for errors (F12)
 
-## 📝 Notes
+## Development Roadmap
 
-- **API Rate Limits**: The free Twelve Data API has limitations. The system is optimized to stay within limits.
-- **Market Hours**: Data quality is best during active trading sessions
-- **News Feed**: Forex Factory RSS may have delays; cross-reference with other sources
-- **Educational Purpose**: This tool is for analysis and education, not financial advice
+### Planned Enhancements
+- Historical data visualization with charts
+- Automated trade signal generation
+- Email and SMS notification system
+- Multi-asset class support
+- Machine learning price prediction models
+- Backtesting framework
+- Mobile application version
 
-## 🚀 Future Enhancements
+## License
 
-Potential improvements:
-- [ ] Historical data charting
-- [ ] Trade signal generation
-- [ ] Email/SMS alert notifications
-- [ ] Multiple symbol support
-- [ ] Machine learning price predictions
-- [ ] Backtesting capabilities
-- [ ] Mobile app version
+MIT License - See LICENSE file for details.
 
-## 📄 License
+## Contributing
 
-MIT License - Feel free to use and modify for your needs
+We welcome contributions! Please:
+1. Fork the repository
+2. Create a feature branch
+3. Submit a pull request with detailed description
 
-## 🤝 Contributing
+## Disclaimer
 
-Contributions are welcome! Feel free to:
-- Report bugs
-- Suggest features
-- Submit pull requests
+This software is for educational and informational purposes only. It does not constitute financial advice. Trading financial instruments involves substantial risk of loss. Always conduct your own research and consult with qualified financial professionals before making investment decisions.
+**
+**Screenshots****
 
-## ⚠️ Disclaimer
+<img width="1366" height="495" alt="10 12 2025_15 36 57_REC" src="https://github.com/user-attachments/assets/0ee02aeb-d795-4855-b33e-b3d3b1701676" />
+<img width="1366" height="598" alt="10 12 2025_15 37 20_REC" src="https://github.com/user-attachments/assets/f03f3061-35f6-427b-9344-b85c36660780" />
+<img width="1356" height="593" alt="10 12 2025_15 37 54_REC" src="https://github.com/user-attachments/assets/0a42d04e-855a-479e-98e2-6cbd1121ac87" />
 
-This software is for educational and informational purposes only. It does not constitute financial advice. Trading involves risk, and you should never trade with money you cannot afford to lose. Always do your own research and consult with a qualified financial advisor.
+
 
 ---
 
-**Built with ❤️ for traders who demand professional-grade analysis tools**
+**Professional trading analytics for informed decision making**

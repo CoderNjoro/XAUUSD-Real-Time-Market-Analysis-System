@@ -3,8 +3,8 @@ Configuration file for XAUUSD Market Analysis System
 """
 
 # API Configuration
-TWELVE_DATA_API_KEY = "e66f23af924748319c7aea637eb54fac"
-FRED_API_KEY = "1a099848d7dc45964df8c7fc342476b6"  # Federal Reserve Economic Data
+TWELVE_DATA_API_KEY = "enter your aou key here"
+FRED_API_KEY = "enter your api key here"  # Federal Reserve Economic Data
 FOREX_FACTORY_RSS = "https://www.forexfactory.com/rss"
 
 # Market Configuration
